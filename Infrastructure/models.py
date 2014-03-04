@@ -40,29 +40,39 @@ class Definitions(BaseElement):
         '''
         name:str
             The name of the Definition.
+            
         targetNamespace:str
             This attribute identifies the namespace associated with the Definition and follows the convention established by XML Schema.
+        
         expressionLanguage:str (default='http://www.w3.org/1999/XPath')
             This attribute identifies the formal Expression language used in Expressions within the elements of this Definition.
             This value MAY be overridden on each individual formal Expression.
             The language MUST be specified in a URI format.
+        
         typeLanguage:str (default='http://www.w3.org/2001/XMLSchema')
             This attribute identifies the type system used by the elements of this Definition.
             This value can be overridden on each individual ItemDefinition.
             The language MUST be specified in a URI format.
+        
         rootElements:RootElement list
             This attribute lists the root elements that are at the root of this Definitions.
             These elements can be referenced within this Definitions and are visible to other Definitions.
+       
         diagrams:BPMNDiagram list
             This attribute lists the BPMNDiagrams that are contained within this Definitions.
+        
         imports:Import list
             This attribute is used to import externally defined elements and make them available for use by elements within this Definitions.
+        
         extentions:Extension list
             This attribute identifies extensions beyond the attributes and model associations in the base BPMN specification.
+        
         relationships:Relationship list
             This attribute enables the extension and integration of BPMN models into larger system/development Processes.
+        
         exporter:str
             This attribute identifies the tool that is exporting the bpmn model file.
+        
         exporterVersion:str
             This attribute identifies the version of the tool that is exporting the bpmn model file.
         '''
@@ -121,8 +131,10 @@ class Import(object):
                 'xml10'  --> 'hhtp://www.w3.org/2001/XMLSchema'
                 'wsdl20' --> 'http://www.w3.org/TRwsdl20/'
                 'bpmn20' --> 'http://www.omg.org/spec/BPMN/20100524/MODEL'
+        
         namespace:str
             Identifies the namespace of the imported element.
+        
         location:str
             Identifies the location of the imported element.
         '''
