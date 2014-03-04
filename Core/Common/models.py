@@ -627,7 +627,7 @@ class SequenceFlow(FlowElement):
         if self.__class__.__init__=='conditionExpression':
             residual_args(self.__init__, **kwargs)
             
-class FlowNode(object): #one again unconsistency betweeen figures and text about inheritance in OMG spec
+class FlowNode(object): #once again inconsistency between figures and text about inheritance in OMG spec
     '''
     The FlowNode element is used to provide a single element as the source and target Sequence Flow associations instead of the individual associations of the elements that can connect to Sequence Flows.
     Only the Gateway, Activity, Choreography Activity, and Event elements can connect to Sequence Flows and thus, these elements are the only ones that are sub-classes of FlowNode.
