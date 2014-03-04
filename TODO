@@ -1,0 +1,29 @@
+Finir la mise en place du MODEL pour conversation et process
+
+Ajouter l'import xml
+
+Ajouter un support BDD
+
+Ajouter l'export xml ?
+
+Créer le moteur d'exécution asynchrone
+
+Créer une UI django d'admin
+    monitoring d'execution
+    principaux parametrages (files, ...)
+    suivi de charge en fonction du temps / des processus / des activités
+        Chaque instance d'activité/processus doit stocker ses données d'exec dans un historique traité par batch par la suite   
+    Activation / Désactivation de processus
+        Ajout d'un statut de déploiement des processus (DEV/INT/SIMU/PROD/STOPPED)
+    Gestion de version des processus
+    
+Créer une UI django permettant de voir l'ensemble de ses actions en cours (typiquement "Ready")
+    Association des tâches à des utilisateurs ou groupes
+    Association de formulaires auto à des tâches user
+    Ajouter des dataObjects custo associés à des formulaires django ?
+    
+    Possibilité de voir les actions qui arrivent (charge prévisionnelle certaine/probable selon embranchement)
+    
+Récuperation de l'historique / generation de statistiques / calcul de coût par activité d'un process / par instance
+Système d'alerte sur dérive d'une activité
+Système d'alerte heuristique ?    
