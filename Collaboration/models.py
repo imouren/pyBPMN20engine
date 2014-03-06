@@ -162,4 +162,51 @@ class Participant(BaseElement):
         if self.__class__.__name__=='Participant':
             residual_args(self.__init__, **kwargs)
             
+class ParticipantMultiplicity(object):
+    '''
+    ParticipantMultiplicity is used to define the multiplicity of a Participant.
+    The multi-instance marker will be displayed in bottom center of the Pool, or the Participant Band of a Choreography
+    Activity, when the ParticipantMultiplicity is associated with the Participant, and the maximum attribute is either not set,
+    or has a value of two or more.
+    '''
+    def__init__(self, minimum=0, maximum=None):
+        '''
+        minimum:int (default=0)
+            The minimum attribute defines minimum number of Participants that MUST be involved in the Collaboration.
+            If a value is specified in the maximum attribute, it MUST be greater or equal to this minimum value.
             
+        maximum:int (default=None)
+            The maximum attribute defines maximum number of Participants that MAY be involved in the Collaboration.
+            The value of maximum MUST be one or greater, AND MUST be equal or greater than the minimum value.
+        '''
+        self.minimum = minimum
+        if (maximum is None) or (maximum>minimum and maximum>0):
+            self.maximum = maximum
+        else:
+            raise Exception
+
+#not sure how to represent this
+class ParticipantMultiplicityInst(object):
+    def __init__(self, minimum=0, maximum=None, numParticipants=None):
+        self.participantMultiplicity = ParticipantMultiplicity(minimum, maximum)
+        self.numParticipants=numParticipants
+        
+class ParticipantAssociation(BaseElement):
+    '''
+    '''
+    def __init__(self, id, innerParticipantRef, outerParticipantRef, **kwargs):
+        '''
+        innerParticipantRef:Participant
+            This attribute defines the Participant of the referenced element (e.g., a Choreography to be used in a Collaboration)
+            that will be mapped to the parent element (e.g., the Collaboration).
+            
+        outerParticipantRef:Participant
+            This attribute defines the Participant of the parent element (e.g., a Collaboration references a Choreography)
+            that will be mapped to the referenced element (e.g., the Choreography).
+        '''
+        super(ParticipantAssociation, self).__init__(id, **kwargs)
+        self.innerParticipantRef = innerParticipantRef
+        self.outerParticipantRef = outerParticipantRef
+        
+        if self.__class__.__name__='ParticipantAssociation':
+            residual_args(self.__init__, **kwargs)
