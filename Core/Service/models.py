@@ -26,8 +26,8 @@ Core BPMN Package - Service
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from Foundation.models import RootElement
-from Common.functions import residual_args
+from Core.Foundation.models import RootElement
+from Core.Common.functions import residual_args
 
 class Interface(RootElement):
     '''

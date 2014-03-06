@@ -28,7 +28,7 @@ Core BPMN Package - Foundation
 The Foundation package contains classes that are shared among other packages in the Core of an abstract syntax model.
 '''
 
-from Common.fonctions import residual_args
+from Core.Common.fonctions import residual_args
 
 RelationshipDirection = ['None','Forward','Backward','Both']
 

@@ -26,8 +26,8 @@
 Core BPMN Package - Common
 '''
 
-from Foundation.models import RootElement, BaseElement
-from fonctions import residual_args
+from Core.Foundation.models import RootElement, BaseElement
+from Core.Common.fonctions import residual_args
 
 
 ##########################################################
@@ -649,7 +649,47 @@ class FlowNode(object): #once again inconsistency between figures and text about
         if self.__class__.__name__=='FlowNode':
             residual_args(self.__init__, **kwargs)
             
+##########################################################
+# Entities and Organisations
+
+class PartnerEntity(BaseElement):
+    '''
+    A PartnerEntity is one of the possible types of Participant.
+    '''
+    def __init__(self,id, name, **kwargs):
+        '''
+        name:str
+            Name is a text description of the PartnerEntity.
             
+        participantRef:Participant list
+            Specifies how the PartnerEntity participates in Collaborations and Choreographies.
+        '''
+        super(PartnerEntity,self).__init__(id, **kwargs)
+        self.name = name
+        self.participantRef = kwargs.pop('participantRef',[])
+        
+        if self.__class__.__name__=='PartnerEntity':
+            residual_args(self.__init__, **kwargs)
+            
+class PartnerRole(BaseElement):
+    '''
+    A PartnerRole is one of the possible types of Participant.
+    '''
+    def __init__(self,id, name, **kwargs):
+        '''
+        name:str
+            Name is a text description of the PartnerRole.
+            
+        participantRef:Participant list
+            Specifies how the PartnerRole participates in Collaborations and Choreographies.
+        '''
+        super(PartnerRole,self).__init__(id, **kwargs)
+        self.name = name
+        self.participantRef = kwargs.pop('participantRef',[])
+        
+        if self.__class__.__name__=='PartnerRole':
+            residual_args(self.__init__, **kwargs)
+        
             
 ##########################################################
 # Events
