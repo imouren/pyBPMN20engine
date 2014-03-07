@@ -112,7 +112,16 @@ class Collaboration(RootElement):
         if self.__class__.__name__=='Collaboration':
             residual_args(self.__init__, **kwargs)
 
-class Participant(BaseElement):
+class InteractionNode(object):
+    '''
+    The InteractionNode element is used to provide a single element as the source and target Message Flow associations instead of
+    the individual associations of the elements that can connect to Message Flows.
+    Only the Pool/Participant, Activity, and Event elements can connect to Message Flows.
+    The InteractionNode element is also used to provide a single element for source and target of Conversation Links.
+    '''
+    pass
+            
+class Participant(BaseElement, InteractionNode):
     '''
     '''
     def __init__(self, id, **kwargs):
@@ -169,7 +178,7 @@ class ParticipantMultiplicity(object):
     Activity, when the ParticipantMultiplicity is associated with the Participant, and the maximum attribute is either not set,
     or has a value of two or more.
     '''
-    def__init__(self, minimum=0, maximum=None):
+    def __init__(self, minimum=0, maximum=None):
         '''
         minimum:int (default=0)
             The minimum attribute defines minimum number of Participants that MUST be involved in the Collaboration.
@@ -208,5 +217,121 @@ class ParticipantAssociation(BaseElement):
         self.innerParticipantRef = innerParticipantRef
         self.outerParticipantRef = outerParticipantRef
         
-        if self.__class__.__name__='ParticipantAssociation':
+        if self.__class__.__name__=='ParticipantAssociation':
+            residual_args(self.__init__, **kwargs)
+
+
+    
+class MessageFlow(BaseElement):
+    '''
+    '''
+    def __init__(self, id, name, sourceRef, targetRef, **kwargs):
+        '''
+        name:str
+            Name is a text description of the Message Flow.
+
+        sourceRef:InteractionNode
+            The InteractionNode that the Message Flow is connecting from.
+            Of the types of InteractionNode, only Pools/Participants, Activities, and Events can be the source of a Message Flow.
+
+        targetRef:InteractionNode
+            The InteractionNode that the Message Flow is connecting to.
+            Of the types of InteractionNode, only Pools/Participants, Activities, and Events can be the target of a Message Flow.
+            
+        messageRef:Message
+            The messageRef model association defines the Message that is passed via the Message Flow.
+        '''
+        super(MessageFlow, self).__init__(id, **kwargs)
+        self.name = name
+        self.sourceRef = sourceRef
+        self.targetRef = targetRef
+        self.messageRef = kwargs.pop('messagRef', None)
+        
+        if self.__class__.__name__=='MessageFlow':
+            residual_args(self.__init__, **kwargs)
+            
+class MessageFlowAssociation(BaseElement):
+    '''
+    '''
+    def __init__(self, id, innerMessageFlowRef, outerMessageFlowRef, **kwargs):
+        '''
+        innerMessageFlowRef:MessageFlow
+            This attribute defines the Message Flow of the referenced element (e.g., a Choreography to be used in a Collaboration)
+            that will be mapped to the parent element (e.g., the Collaboration).
+        
+        outerMessageFlowRef:MessageFlow
+            This attribute defines the Message Flow of the parent element (e.g., a Collaboration references a Choreography) that will be
+            mapped to the referenced element (e.g., the Choreography).
+        '''
+        super(MessageFlowAssociation, self).__init__(id, **kwargs)
+        self.innerMessageFlowRef = innerMessageFlowRef
+        self.outerMessageFlowRef = outerMessageFlowRef
+        
+        if self.__class__.__name__=='MessageFlowAssociation':
+            residual_args(self.__init__, **kwargs)
+            
+class ConversationNode(BaseElement):
+    '''
+    ConversationNode is the abstract super class for all elements that can comprise the Conversation elements of a Collaboration diagram,
+    which are Conversation, Sub-Conversation, and Call Conversation (see page 131).
+    '''
+    def __init__(self, id, participantRefs, **kwargs):
+        '''
+        participantRefs:Participant list (min len = 2)
+            This provides the list of Participants that are used in the ConversationNode from the list provided by the ConversationNode's parent Conversation.
+            This reference is visualized through a Conversation Link.
+            
+        name:str
+            Name is a text description of the ConversationNode element.
+            
+        messageFlowRefs:MessageFlow list
+            A reference to all Message Flows (and consequently Messages) grouped by a Conversation element.
+        
+        correlationKeys:CorrelationKey list
+            This is a list of the ConversationNode's CorrelationKeys, which are used to group Message Flows for the ConversationNode.
+        '''
+        super(ConversationNode, self).__init__(id, **kwargs)
+        self.participantRefs = participantRefs
+        self.name = kwargs.pop('name',None)
+        self.messageFlowRefs = kwargs.pop('messageFlowRefs',[])
+        self.correlationKeys = kwargs.pop('correlationKeys',[])
+        
+        if self.__class__.__name__=='ConversationNode':
+            residual_args(self.__init__, **kwargs)
+            
+class Conversation(ConversationNode):
+    pass
+    
+class SubConversation(ConversationNode):
+    '''  
+    '''
+    def __init__(self, id, participantRefs, **kwargs):
+        '''
+        conversationNodes:ConversationNode list
+            The ConversationNodes model aggregation relationship allows a SubConversation to contain other ConversationNodes,
+            in order to group Message Flows of the Sub-Conversation and associate correlation information.
+        '''
+        super(SubConversation, self).__init__(id, participantRefs, **kwargs)
+        self.conversationNodes = kwargs.pop('conversationNodes',[])
+
+class CallConversation(ConversationNode):
+    '''
+    '''
+    def __init__(self, id, participantRefs, **kwargs):
+        '''
+        calledCollaborationRef:Collaboratioin
+            The element to be called, which MAY be either a Collaboration or a GlobalConversation.
+            The called element MUST NOT be a Choreography or a GlobalChoreographyTask (which are subtypes of Collaboration)
+            
+        participantAssociations:ParticipantAssociation list
+            This attribute provides a list of mappings from the Participants of a referenced GlobalConversation or Conversation to the
+            Participants of the parent Conversation.
+
+        //Note - The ConversationNode attribute messageFlowRef doesn't apply to Call Conversations.
+        '''
+        super(CallConversation, self).__init__(id, participantRefs, messageFlowRef=[], **kwargs)
+        self.calledCollaborationRef = kwargs.pop('calledCollaborationRef', None)
+        self.participantAssociations = kwargs.pop('participantAssociations', [])
+        
+        if self.__class__.__name__=='CallConversation':
             residual_args(self.__init__, **kwargs)
