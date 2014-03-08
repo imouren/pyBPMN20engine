@@ -23,7 +23,7 @@
 # THE SOFTWARE.
 
 '''
-Core BPMN Package - Collaboration
+BPMN Package - Collaboration
 
 The Collaboration package contains classes that are used for modeling Collaborations, which is a collection of
 Participants shown as Pools, their interactions as shown by Message Flows, and MAY include Processes within the
@@ -192,13 +192,10 @@ class ParticipantMultiplicity(object):
         if (maximum is None) or (maximum>minimum and maximum>0):
             self.maximum = maximum
         else:
-            raise Exception
-
-#not sure how to represent this
-class ParticipantMultiplicityInst(object):
-    def __init__(self, minimum=0, maximum=None, numParticipants=None):
-        self.participantMultiplicity = ParticipantMultiplicity(minimum, maximum)
-        self.numParticipants=numParticipants
+            raise Exception # to precise
+        
+        # instance attribute default value
+        self.numParticipants = None
         
 class ParticipantAssociation(BaseElement):
     '''
@@ -270,68 +267,3 @@ class MessageFlowAssociation(BaseElement):
         if self.__class__.__name__=='MessageFlowAssociation':
             residual_args(self.__init__, **kwargs)
             
-class ConversationNode(BaseElement):
-    '''
-    ConversationNode is the abstract super class for all elements that can comprise the Conversation elements of a Collaboration diagram,
-    which are Conversation, Sub-Conversation, and Call Conversation (see page 131).
-    '''
-    def __init__(self, id, participantRefs, **kwargs):
-        '''
-        participantRefs:Participant list (min len = 2)
-            This provides the list of Participants that are used in the ConversationNode from the list provided by the ConversationNode's parent Conversation.
-            This reference is visualized through a Conversation Link.
-            
-        name:str
-            Name is a text description of the ConversationNode element.
-            
-        messageFlowRefs:MessageFlow list
-            A reference to all Message Flows (and consequently Messages) grouped by a Conversation element.
-        
-        correlationKeys:CorrelationKey list
-            This is a list of the ConversationNode's CorrelationKeys, which are used to group Message Flows for the ConversationNode.
-        '''
-        super(ConversationNode, self).__init__(id, **kwargs)
-        self.participantRefs = participantRefs
-        self.name = kwargs.pop('name',None)
-        self.messageFlowRefs = kwargs.pop('messageFlowRefs',[])
-        self.correlationKeys = kwargs.pop('correlationKeys',[])
-        
-        if self.__class__.__name__=='ConversationNode':
-            residual_args(self.__init__, **kwargs)
-            
-class Conversation(ConversationNode):
-    pass
-    
-class SubConversation(ConversationNode):
-    '''  
-    '''
-    def __init__(self, id, participantRefs, **kwargs):
-        '''
-        conversationNodes:ConversationNode list
-            The ConversationNodes model aggregation relationship allows a SubConversation to contain other ConversationNodes,
-            in order to group Message Flows of the Sub-Conversation and associate correlation information.
-        '''
-        super(SubConversation, self).__init__(id, participantRefs, **kwargs)
-        self.conversationNodes = kwargs.pop('conversationNodes',[])
-
-class CallConversation(ConversationNode):
-    '''
-    '''
-    def __init__(self, id, participantRefs, **kwargs):
-        '''
-        calledCollaborationRef:Collaboratioin
-            The element to be called, which MAY be either a Collaboration or a GlobalConversation.
-            The called element MUST NOT be a Choreography or a GlobalChoreographyTask (which are subtypes of Collaboration)
-            
-        participantAssociations:ParticipantAssociation list
-            This attribute provides a list of mappings from the Participants of a referenced GlobalConversation or Conversation to the
-            Participants of the parent Conversation.
-
-        //Note - The ConversationNode attribute messageFlowRef doesn't apply to Call Conversations.
-        '''
-        super(CallConversation, self).__init__(id, participantRefs, messageFlowRef=[], **kwargs)
-        self.calledCollaborationRef = kwargs.pop('calledCollaborationRef', None)
-        self.participantAssociations = kwargs.pop('participantAssociations', [])
-        
-        if self.__class__.__name__=='CallConversation':
-            residual_args(self.__init__, **kwargs)

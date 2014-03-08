@@ -416,7 +416,7 @@ class FlowElement(BaseElement):
         if self.__class__.__name__=='FlowElement':
             residual_args(self.__init__, **kwargs)
         
-class FlowElementContainer(BaseElement):
+class FlowElementsContainer(BaseElement):
     '''
     FlowElementsContainer is an abstract super class for BPMN diagrams (or views) and defines the superset of elements that are contained in those diagrams.
     Basically, a FlowElementsContainer contains FlowElements, which are Events, Gateways, Sequence Flows, Activities and Choreography Activities.
@@ -434,11 +434,11 @@ class FlowElementContainer(BaseElement):
         laneSets:LaneSet list
             This attribute defines the list of LaneSets used in the FlowElementsContainer LaneSets are not used for Choreographies or Sub-Choreographies.
         '''
-        super(FlowElementContainer,self).__init__(id, **kwargs)
+        super(FlowElementsContainer,self).__init__(id, **kwargs)
         self.flowElements = kwargs.pop('flowElements',[])
         self.laneSets = kwargs.pop('laneSets',[])
         
-        if self.__class__.__name__=='FlowElementContainer':
+        if self.__class__.__name__=='FlowElementsContainer':
             residual_args(self.__init__, **kwargs) 
 
 GatewayDirection = ['Unspecified','Converging','Diverging','Mixed']
@@ -705,4 +705,14 @@ class PartnerRole(BaseElement):
 # TBD
 
 class CallableElement(RootElement):
-    pass
+    '''
+    '''
+    def __init__(self, id, **kwargs):
+        '''
+        name:str
+        '''
+        super(CallableElement, self).__init__(id, **kwargs)
+        self.name = kwargs.pop('name', None)
+        
+        if self.__class__.__name__=='CallableElement':
+            residual_args(self.__init__, **kwargs)

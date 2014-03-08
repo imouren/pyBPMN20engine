@@ -28,8 +28,8 @@ Infrastrucure
 The BPMN Infrastructure package contains two elements that are used for both abstract syntax models and diagram models.
 '''
 
-from Foundation.models import BaseElement
-from Common.fonctions import residual_args
+from Core.Foundation.models import BaseElement
+from Core.Common.fonctions import residual_args
 
 class Definitions(BaseElement):
     '''
@@ -122,7 +122,7 @@ class Import(object):
     shortTypes_map={'xml10':'http://www.w3.org/2001/XMLSchema',
                     'wsdl20':'http://www.w3.org/TRwsdl20/',
                     'bpmn20':'http://www.omg.org/spec/BPMN/20100524/MODEL',}
-    def __init__(self, shortType, namespace, location=None)
+    def __init__(self, shortType, namespace, location=None):
         '''
         shortType:str
             Identifies the type of document being imported by providing an absolute URI that identifies the encoding language used in the document.
