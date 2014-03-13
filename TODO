@@ -27,3 +27,6 @@ Créer une UI django permettant de voir l'ensemble de ses actions en cours (typiq
 Récuperation de l'historique / generation de statistiques / calcul de coût par activité d'un process / par instance
 Système d'alerte sur dérive d'une activité
 Système d'alerte heuristique ?    
+user assignment / resource management
+
+add a process owner to refer to when a resource assignement query fails.

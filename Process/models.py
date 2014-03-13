@@ -28,6 +28,7 @@ BPMN Package - Process
 
 from Core.Foundation.models import BaseElement, RootElement
 from Core.Common.models import FlowElementsContainer, CallableElement
+from Activities.models import ResourceRole
 from Core.Common.fonctions import residual_args
 
 ProcessType = ['None', 'Private', 'Public']
@@ -116,3 +117,10 @@ class Process(FlowElementsContainer, CallableElement):
         
         if self.__class__.__name__=='Process':
             residual_args(self.__init__, **kwargs)
+        
+class Performer(ResourceRole):
+    '''
+    The Performer class defines the resource that will perform or will be responsible for an Activity.
+    The performer can be specified in the form of a specific individual, a group, an organization role or position, or an organization.
+    '''
+    pass

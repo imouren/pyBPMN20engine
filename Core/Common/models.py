@@ -627,13 +627,13 @@ class SequenceFlow(FlowElement):
         if self.__class__.__init__=='conditionExpression':
             residual_args(self.__init__, **kwargs)
             
-class FlowNode(object): #once again inconsistency between figures and text about inheritance in OMG spec
+class FlowNode(FlowElement): #once again inconsistency between figures and text about inheritance in OMG spec
     '''
     The FlowNode element is used to provide a single element as the source and target Sequence Flow associations instead of the individual associations of the elements that can connect to Sequence Flows.
     Only the Gateway, Activity, Choreography Activity, and Event elements can connect to Sequence Flows and thus, these elements are the only ones that are sub-classes of FlowNode.
     Since Gateway, Activity, Choreography Activity, and Event have their own attributes, model associations, and inheritances; the FlowNode element does not inherit from any other BPMN element.
     '''
-    def __init__(self, **kwargs):
+    def __init__(self, id, **kwargs):
         '''
         incoming:SequenceFlow list
             This attribute identifies the incoming Sequence Flow of the FlowNode.
@@ -642,7 +642,7 @@ class FlowNode(object): #once again inconsistency between figures and text about
             This attribute identifies the outgoing Sequence Flow of the FlowNode.
             This is an ordered collection.
         '''
-        super(FlowNode, self).__init__()
+        super(FlowNode, self).__init__(id, **kwargs)
         self.incoming = kwargs.pop('incoming',[])
         self.outgoing = kwargs.pop('outgoing',[])
         
