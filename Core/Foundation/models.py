@@ -53,6 +53,7 @@ class BaseElement(object):
         extentionValues:ExtentionAttributeDefinition list
             This attribute is used to provide values for extended attributes and model associations.
         '''
+        super(BaseElement,self).__init__()
         self.id = id
         self.documentation = kwargs.pop('documentation',[])
         self.extensionDefinitions = kwargs.pop('extensionDefinition',[])
@@ -67,7 +68,8 @@ class RootElement(BaseElement):
     
     The RootElement element inherits the attributes and model associations of BaseElement, but does not have any further attributes or model associations.
     '''
-    pass
+    def __init__(self):
+        super(RootElement,self).__init__()
     
 class Relationship(BaseElement):
     '''
@@ -113,6 +115,7 @@ class ExtensionAttributeValue(object):
             The referenced attribute value, used when the associated ExtensionAttributeDefinition.isReference is true.
             The type of this Element MUST conform to the type specified in the associated ExtensionAttributeDefinition.
         '''
+        super(ExtensionAttributeValue,self).__init__()
         self.extensionAttributeDefinition = extensionAttributeDefinition
         self.value = kwargs.pop('value',None)
         self.valueRef = kwargs.pop('valueRef',None)
@@ -152,6 +155,7 @@ class ExtensionDefinition(object):
         extensionAttributeDefinitions:ExtensionAttributeDefinition list
             The specific attributes that make up the extension.
         '''
+        super(ExtensionDefinition,self).__init__()
         self.name = name
         self.extensionAttributeDefinitions = kwargs.pop('extentionAttributeDefinitions',[])
         
@@ -174,6 +178,7 @@ class ExtensionAttributeDefinition(object):
         isReference:bool
             Indicates if the attribute value will be referenced or contained.
         '''
+        super(ExtensionAttributeDefinition,self).__init__()
         self.name = name
         self.type = type
         self.isReference = isReference
@@ -195,6 +200,7 @@ class Extension(object):
         definition:ExtensionDefinition
             Defines the content of the extension.
         '''
+        super(Extension,self).__init__()
         self.mustUnderstand = mustUnderstand
         self.definition = kwargs.pop('definition',None)
         if self.__class__.__name__ == 'Extension':

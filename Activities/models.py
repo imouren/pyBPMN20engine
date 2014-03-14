@@ -340,6 +340,28 @@ class ResourceParameterBindings(BaseElement):
             residual_args(self.__init__, **kwargs)
 
 
+#Sub-process
+class SubProcess(Activitiy, FlowElementsContainer):
+    '''
+    '''
+    def __init__(self, id, **kwargs):
+        '''
+        triggeredByEvent:bool (default=False)
+            A flag that identifies whether this Sub-Process is an Event Sub-Process.
+                If false, then this Sub-Process is a normal Sub-Process. 
+                If true, then this Sub-Process is an Event Sub-Process and is subject to additional constraints.
+                
+        artifacts:Artifact list
+            This attribute provides the list of Artifacts that are contained within the Sub-Process.
+        '''
+        super(SubProcess, self).__init__(id, **kwargs)
+        self.triggeredByEvent = kwargs.pop('triggeredByEvent',False)
+        self.artifacts = kwargs.pop('artifacts',[])
+        
+        if self.__class__.__name__=='SubProcess':
+            residual_args(self.__init__, **kwargs)
+    
+class 
 #LoopCharacteristics
 #StandardLoopCharacteristics
 #MultiInstanceLoopCharaceristics
